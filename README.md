@@ -1,6 +1,8 @@
 # recipe-api
 
-A small Node.js server built with Express.
+A Node.js and Express API for my Recipe Finder app.
+
+**Live:** <https://recipe-api-three-cyan.vercel.app>
 
 ## Features
 
@@ -9,28 +11,46 @@ A small Node.js server built with Express.
 - `GET /recipes/:id` returns one recipe by its `idMeal` (for example `pk-01`), or a 404 JSON error if no recipe matches.
 - CORS allows only the GitHub Pages frontend (`https://iqra-glitch.github.io`) and local Live Server (port 5500).
 
-## Install
-
-```
-npm install
-```
-
-## Run
-
-```
-npm start
-```
-
-The server uses the `PORT` environment variable if it is set (for example on Render). Otherwise it runs at http://localhost:3000.
-
-## Endpoint
+## Endpoints
 
 ### `GET /hello`
 
 Returns a short JSON message.
 
-Example response:
-
 ```json
 { "message": "Hello from the Recipe API!" }
 ```
+
+### `GET /recipes`
+
+Returns all recipes as an array.
+
+```json
+[
+  { "idMeal": "pk-01", "strMeal": "Chicken Karahi", "strCategory": "Chicken", "...": "..." },
+  { "idMeal": "pk-02", "strMeal": "Nihari", "strCategory": "Beef", "...": "..." }
+]
+```
+
+### `GET /recipes/:id`
+
+Returns one recipe by its `idMeal`, for example `/recipes/pk-01`.
+
+```json
+{ "idMeal": "pk-01", "strMeal": "Chicken Karahi", "strCategory": "Chicken", "...": "..." }
+```
+
+If no recipe has that id, it returns status **404** with an error message:
+
+```json
+{ "error": "Recipe with id 'pk-99' not found" }
+```
+
+## Run locally
+
+```bash
+npm install
+npm start
+```
+
+Locally it runs at <http://localhost:3000>.
