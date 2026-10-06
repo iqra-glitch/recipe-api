@@ -1,10 +1,19 @@
 // Step 1: Import Express.
 // Express is a library that makes it easy to build web servers in Node.js.
 const express = require("express");
+// cors is a small library that lets other websites (like your frontend) call this server.
+const cors = require("cors");
 
 // Step 2: Create the app.
 // "app" is our server. We will add routes (URLs) to it.
 const app = express();
+
+// Turn on CORS (Cross-Origin Resource Sharing).
+// Browsers block a page on one port (for example your frontend on 5173) from calling
+// a server on another port (our 3000) unless the server says it's allowed.
+// cors() adds that permission to every response, for every website.
+// It must come before the routes so it applies to all of them.
+app.use(cors());
 
 // Step 3: Choose a port.
 // A port is like a door number on your computer. Our server will listen on port 3000.

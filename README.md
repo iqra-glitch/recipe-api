@@ -7,6 +7,7 @@ A small Node.js server built with Express.
 - `GET /hello` returns a short JSON message.
 - `GET /recipes` returns all recipes from `pakistani-recipes.json`.
 - `GET /recipes/:id` returns one recipe by its `idMeal` (for example `pk-01`), or a 404 JSON error if no recipe matches.
+- CORS is enabled, so a frontend running on another port can call the API.
 
 ## Install
 
