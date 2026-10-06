@@ -9,15 +9,24 @@ const cors = require("cors");
 const app = express();
 
 // Turn on CORS (Cross-Origin Resource Sharing).
-// Browsers block a page on one port (for example your frontend on 5173) from calling
-// a server on another port (our 3000) unless the server says it's allowed.
-// cors() adds that permission to every response, for every website.
+// Browsers block a page on one website (for example our frontend) from calling
+// a server on another website or port unless the server says it's allowed.
+// Here we only allow our own frontends. The addresses must match exactly (no "/" at the end).
+const allowedOrigins = [
+  "https://iqra-glitch.github.io", // the live frontend on GitHub Pages
+  "http://localhost:5500", // Live Server on your computer
+  "http://127.0.0.1:5500", // Live Server on your computer (other address)
+];
+
+// cors() adds the permission only for the websites in the list above.
 // It must come before the routes so it applies to all of them.
-app.use(cors());
+app.use(cors({ origin: allowedOrigins }));
 
 // Step 3: Choose a port.
-// A port is like a door number on your computer. Our server will listen on port 3000.
-const PORT = 3000;
+// A port is like a door number on your computer.
+// Hosting services like Render tell us which port to use through process.env.PORT.
+// On your own computer PORT is not set, so we use 3000 instead ("||" means "otherwise").
+const PORT = process.env.PORT || 3000;
 
 // Step 4: Add the GET /hello route.
 // When someone visits http://localhost:3000/hello, this function runs.
