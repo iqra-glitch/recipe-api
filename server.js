@@ -19,7 +19,38 @@ app.get("/hello", (req, res) => {
   res.json({ message: "Hello from the Recipe API!" });
 });
 
-// Step 5: Start the server.
+// Step 5: Load the recipes from the JSON file.
+// require() reads the file once, when the server starts, and turns it into a JavaScript object.
+// The recipes are inside the "meals" array, so we can reach them with data.meals.
+// Note: if you edit the JSON file, restart the server to see the changes.
+const data = require("./pakistani-recipes.json");
+
+// Step 6: Add the GET /recipes route.
+// When someone visits http://localhost:3000/recipes, we send back all the recipes.
+app.get("/recipes", (req, res) => {
+  res.json(data.meals);
+});
+
+// Step 7: Add the GET /recipes/:id route.
+// ":id" is a placeholder. If someone visits /recipes/pk-01, then req.params.id is "pk-01".
+app.get("/recipes/:id", (req, res) => {
+  const id = req.params.id;
+
+  // .find() goes through the recipes one by one and returns the first one whose idMeal matches.
+  // If none match, it returns undefined.
+  const recipe = data.meals.find((meal) => meal.idMeal === id);
+
+  // If no recipe was found, send a 404 ("Not Found") status with an error message.
+  // "return" stops the function here so we don't send a second response.
+  if (!recipe) {
+    return res.status(404).json({ error: `Recipe with id '${id}' not found` });
+  }
+
+  // Otherwise, send back the recipe we found.
+  res.json(recipe);
+});
+
+// Step 8: Start the server.
 // app.listen() tells the server to start waiting for visitors on our port.
 // The function inside runs once the server is ready.
 app.listen(PORT, () => {
